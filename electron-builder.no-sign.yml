@@ -1,0 +1,19 @@
+appId: com.toonformat.converter
+productName: TOON Converter
+directories:
+  output: dist
+win:
+  target:
+    - target: dir
+      arch:
+        - x64
+  artifactName: ${productName}-${version}.${ext}
+  # 完全禁用签名
+  signAndEditExecutable: false
+  signDlls: false
+portable:
+  artifactName: TOON-Converter-Portable.exe
+files:
+  - dist/**/*
+  - dist-electron/**/*
+

@@ -1,0 +1,31 @@
+appId: com.toonformat.converter
+productName: TOON Converter
+copyright: Copyright © 2025
+directories:
+  output: dist
+  buildResources: build
+
+win:
+  target:
+    - target: portable
+      arch:
+        - x64
+  artifactName: ${productName}-${version}-Portable.${ext}
+
+portable:
+  artifactName: TOON-Converter-Portable.exe
+
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+
+extraResources:
+  - from: build
+    to: .
+    filter:
+      - "**/*"
+
+asarUnpack:
+  - "**/*.node"
+
