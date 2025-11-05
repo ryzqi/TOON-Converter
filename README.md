@@ -299,7 +299,6 @@ MIT License © 2025
 
 - [TOON 官方仓库](https://github.com/toon-format/toon)
 - [TOON 规范文档](https://github.com/toon-format/toon/blob/main/SPEC.md)
-- [问题反馈](https://github.com/toon-format/toon/issues)
 
 ---
 
