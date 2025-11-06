@@ -3,7 +3,8 @@
  * 遵循 SRP：单一编辑器职责
  */
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useMemo } from 'react'
+import { copyToClipboard } from '../utils/clipboard'
 
 interface EditorProps {
   value: string
@@ -43,22 +44,18 @@ export function Editor({
     if (!value) return
     
     try {
-      // 优先使用 Electron API
-      if (window.electronAPI) {
-        await window.electronAPI.clipboard.writeText(value)
-      } else {
-        // 降级到浏览器 API
-        await navigator.clipboard.writeText(value)
-      }
+      await copyToClipboard(value)
       onCopy?.()
     } catch (error) {
       console.error('复制失败:', error)
     }
   }
   
-  // 行号显示
-  const lineCount = value.split('\n').length
-  const lineNumbers = Array.from({ length: lineCount }, (_, i) => i + 1)
+  // 行号显示（使用 useMemo 优化性能）
+  const lineNumbers = useMemo(() => {
+    const lineCount = value.split('\n').length
+    return Array.from({ length: lineCount }, (_, i) => i + 1)
+  }, [value])
   
   return (
     <div className="flex flex-col h-full">

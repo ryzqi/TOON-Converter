@@ -27,8 +27,9 @@ export function useConversion(options: UseConversionOptions = {}) {
   const [isConverting, setIsConverting] = useState(false)
   
   const [encodeOptions, setEncodeOptions] = useState<EncodeOptions>({
+    indent: 2,
     delimiter: ',',
-    lengthMarker: undefined,
+    lengthMarker: false,
   })
   
   const [decodeOptions, setDecodeOptions] = useState<DecodeOptions>({
@@ -77,18 +78,14 @@ export function useConversion(options: UseConversionOptions = {}) {
    * 防抖转换
    */
   useEffect(() => {
-    if (debounceTimer.current) {
-      clearTimeout(debounceTimer.current)
-    }
+    clearTimeout(debounceTimer.current)
     
     debounceTimer.current = setTimeout(() => {
       convert()
     }, debounceMs)
     
     return () => {
-      if (debounceTimer.current) {
-        clearTimeout(debounceTimer.current)
-      }
+      clearTimeout(debounceTimer.current)
     }
   }, [convert, debounceMs])
   

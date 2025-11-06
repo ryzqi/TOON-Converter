@@ -76,6 +76,100 @@ const EXAMPLES: Example[] = [
     category: 'special',
     json: JSON.stringify({ items: ['true', true, 'false', false] }, null, 2),
   },
+  {
+    name: 'Tab 分隔符示例',
+    description: '使用制表符作为分隔符',
+    category: 'array',
+    json: JSON.stringify({
+      products: [
+        { id: 1, name: 'Widget', category: 'Tools', price: 9.99 },
+        { id: 2, name: 'Gadget', category: 'Electronics', price: 14.5 },
+        { id: 3, name: 'Doohickey', category: 'Tools', price: 7.25 },
+      ],
+    }, null, 2),
+  },
+  {
+    name: '长度标记示例',
+    description: '使用 # 前缀的长度标记',
+    category: 'special',
+    json: JSON.stringify({
+      tags: ['reading', 'gaming', 'coding'],
+      categories: ['tech', 'lifestyle', 'business'],
+    }, null, 2),
+  },
+  {
+    name: '深层嵌套结构',
+    description: '多层嵌套的复杂对象',
+    category: 'nested',
+    json: JSON.stringify({
+      company: {
+        name: 'TechCorp',
+        location: {
+          city: 'Beijing',
+          country: 'China',
+        },
+        employees: [
+          { id: 1, name: 'Alice', role: 'Engineer' },
+          { id: 2, name: 'Bob', role: 'Designer' },
+        ],
+      },
+    }, null, 2),
+  },
+  {
+    name: '带嵌套数组的列表',
+    description: '列表中包含表格数组',
+    category: 'nested',
+    json: JSON.stringify({
+      orders: [
+        {
+          orderId: 'ORD-001',
+          items: [
+            { sku: 'A1', qty: 2 },
+            { sku: 'B2', qty: 1 },
+          ],
+          status: 'shipped',
+        },
+      ],
+    }, null, 2),
+  },
+  {
+    name: '数值与字符串混合',
+    description: '包含不同数据类型',
+    category: 'special',
+    json: JSON.stringify({
+      id: 123,
+      name: 'Product',
+      price: 99.99,
+      inStock: true,
+      tags: ['new', 'featured'],
+      metadata: null,
+    }, null, 2),
+  },
+  {
+    name: '包含特殊字符',
+    description: '需要引号转义的字符串',
+    category: 'special',
+    json: JSON.stringify({
+      message: 'Hello, world!',
+      path: 'C:\\Users\\Documents',
+      quote: 'He said "hi"',
+      multiline: 'line1\nline2',
+    }, null, 2),
+  },
+  {
+    name: '大型表格数据',
+    description: '模拟真实数据场景',
+    category: 'array',
+    json: JSON.stringify({
+      users: [
+        { id: 1, name: 'Alice', email: 'alice@example.com', role: 'admin', active: true },
+        { id: 2, name: 'Bob', email: 'bob@example.com', role: 'user', active: true },
+        { id: 3, name: 'Charlie', email: 'charlie@example.com', role: 'user', active: false },
+        { id: 4, name: 'Diana', email: 'diana@example.com', role: 'moderator', active: true },
+        { id: 5, name: 'Eve', email: 'eve@example.com', role: 'user', active: true },
+      ],
+    }, null, 2),
+  },
 ]
 
 interface ExamplesProps {

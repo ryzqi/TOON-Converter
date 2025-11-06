@@ -3,19 +3,18 @@
  * 遵循 SOLID 原则：组件组合与依赖注入
  */
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { Editor } from './components/Editor'
 import { ConfigPanel } from './components/ConfigPanel'
 import { StatusBar } from './components/StatusBar'
 import { Examples } from './components/Examples'
 import { useConversion } from './hooks/useConversion'
+import { useTheme } from './hooks/useTheme'
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 
 function App() {
-  // 深色模式状态
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('theme')
-    return saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)
-  })
+  // 主题管理
+  const { darkMode, toggleDarkMode } = useTheme()
 
   // 转换状态管理
   const {
@@ -36,48 +35,13 @@ function App() {
   // 侧边栏展开状态
   const [showExamples, setShowExamples] = useState(true)
 
-  // 深色模式效果
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    }
-  }, [darkMode])
-
   // 键盘快捷键
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Ctrl/Cmd + Enter: 立即转换
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        e.preventDefault()
-        convert()
-      }
-      
-      // Ctrl/Cmd + L: 清空
-      if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
-        e.preventDefault()
-        clearInput()
-      }
-      
-      // Ctrl/Cmd + D: 切换方向
-      if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
-        e.preventDefault()
-        toggleDirection()
-      }
-      
-      // Ctrl/Cmd + E: 切换示例面板
-      if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
-        e.preventDefault()
-        setShowExamples(prev => !prev)
-      }
-    }
-    
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [convert, clearInput, toggleDirection])
+  useKeyboardShortcuts({
+    'Enter': convert,
+    'l': clearInput,
+    'd': toggleDirection,
+    'e': () => setShowExamples(prev => !prev),
+  })
 
   // 插入示例
   const handleInsertExample = useCallback((json: string) => {
@@ -184,7 +148,7 @@ function App() {
           jsonContent={jsonContent}
           toonContent={toonContent}
           darkMode={darkMode}
-          onToggleDarkMode={() => setDarkMode(!darkMode)}
+          onToggleDarkMode={toggleDarkMode}
         />
       </div>
     </div>

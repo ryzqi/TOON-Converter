@@ -4,8 +4,9 @@
 
 // 编码选项（与 TOON 文档一致）
 export interface EncodeOptions {
+  indent?: number          // 缩进空格数（默认: 2）
   delimiter?: ',' | '\t' | '|'
-  lengthMarker?: false | '#'
+  lengthMarker?: '#' | false  // 长度标记（顺序与官方一致）
 }
 
 // 解码选项（与 TOON 文档一致）
@@ -23,17 +24,6 @@ export interface ConversionResult {
   output: string
   error?: string
   mode?: 'tabular' | 'list' | 'inline' | 'object' // TOON 格式模式
-}
-
-// 转换状态
-export interface ConversionState {
-  direction: ConversionDirection
-  input: string
-  output: string
-  encodeOptions: EncodeOptions
-  decodeOptions: DecodeOptions
-  result: ConversionResult | null
-  isConverting: boolean
 }
 
 // Token 统计

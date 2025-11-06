@@ -64,42 +64,7 @@ export function toonToJson(
   }
 }
 
-/**
- * 往返一致性校验
- */
-export function validateRoundTrip(
-  input: string,
-  direction: 'json-first' | 'toon-first',
-  encodeOptions: EncodeOptions = {},
-  decodeOptions: DecodeOptions = { strict: true, indent: 2 }
-): { valid: boolean; error?: string } {
-  try {
-    if (direction === 'json-first') {
-      // JSON → TOON → JSON
-      const data1 = JSON.parse(input)
-      const toon = encode(data1, encodeOptions)
-      const data2 = decode(toon, decodeOptions)
-      
-      // 深度比较对象
-      const valid = JSON.stringify(data1) === JSON.stringify(data2)
-      return { valid }
-    } else {
-      // TOON → JSON → TOON
-      const data1 = decode(input, decodeOptions)
-      const json = JSON.stringify(data1)
-      const data2 = JSON.parse(json)
-      
-      // 深度比较对象
-      const valid = JSON.stringify(data1) === JSON.stringify(data2)
-      return { valid }
-    }
-  } catch (error) {
-    return {
-      valid: false,
-      error: error instanceof Error ? error.message : '往返校验失败',
-    }
-  }
-}
+
 
 /**
  * 检测 TOON 格式模式（启发式）

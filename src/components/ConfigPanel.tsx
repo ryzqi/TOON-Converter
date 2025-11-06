@@ -49,6 +49,27 @@ export function ConfigPanel({
             编码选项 (Encode)
           </h4>
           
+          {/* 缩进空格数 */}
+          <div>
+            <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+              缩进空格数 (indent)
+            </label>
+            <input
+              type="number"
+              value={encodeOptions.indent ?? 2}
+              onChange={e => onEncodeOptionsChange({
+                ...encodeOptions,
+                indent: parseInt(e.target.value) || 2,
+              })}
+              min={0}
+              max={8}
+              className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+            />
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              每层缩进的空格数（默认 2）
+            </p>
+          </div>
+          
           {/* 分隔符 */}
           <div>
             <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
@@ -73,23 +94,22 @@ export function ConfigPanel({
           
           {/* 长度标记 */}
           <div>
-            <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
-              长度标记 (lengthMarker)
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={encodeOptions.lengthMarker === '#'}
+                onChange={e => onEncodeOptionsChange({
+                  ...encodeOptions,
+                  lengthMarker: e.target.checked ? '#' : false,
+                })}
+                className="w-4 h-4"
+              />
+              <span className="text-sm text-gray-700 dark:text-gray-300">
+                长度标记 (lengthMarker)
+              </span>
             </label>
-            <input
-              type="text"
-              value={encodeOptions.lengthMarker === false ? 'false' : encodeOptions.lengthMarker || ''}
-              onChange={e => onEncodeOptionsChange({
-                ...encodeOptions,
-                lengthMarker: e.target.value === '' ? undefined : 
-                             e.target.value === 'false' ? false : 
-                             e.target.value === '#' ? '#' : '#',
-              })}
-              placeholder="例: # 或 false"
-              className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-            />
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              可选前缀，如 [#3] 而非 [3]
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 ml-6">
+              启用后显示 [#3] 而非 [3]
             </p>
           </div>
         </div>
