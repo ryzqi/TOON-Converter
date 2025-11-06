@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain, clipboard } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
@@ -54,8 +54,23 @@ function createWindow() {
   })
 }
 
+// 注册 IPC handlers
+function setupIpcHandlers() {
+  // 剪贴板写入
+  ipcMain.handle('clipboard:write', (_event, text: string) => {
+    clipboard.writeText(text)
+    return Promise.resolve()
+  })
+
+  // 剪贴板读取
+  ipcMain.handle('clipboard:read', () => {
+    return Promise.resolve(clipboard.readText())
+  })
+}
+
 // 应用准备就绪后创建窗口
 app.whenReady().then(() => {
+  setupIpcHandlers()
   createWindow()
 
   // macOS 应用激活时如果没有窗口则创建新窗口
